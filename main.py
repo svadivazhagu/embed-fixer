@@ -5,10 +5,6 @@ intents = discord.Intents(messages=True)
 bot = discord.Bot(intents=discord.Intents.all())
 
 @bot.event
-async def on_ready():
-    print(f"{bot.user} is ready and online!")
-
-@bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
