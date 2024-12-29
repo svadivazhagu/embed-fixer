@@ -2,3 +2,4 @@ embed-fixer/
 .python-version
 .env
 .venv/
+embed.log

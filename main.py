@@ -1,5 +1,6 @@
 import discord
 import os
+import time
 
 intents = discord.Intents(messages=True)
 
@@ -22,8 +23,9 @@ async def on_message(message):
 
     if aliased:
         await message.delete()
-        with open("embed.log", 'a') as file:  
-            file.write(f"{message.author.name} - {aliased}\n") 
+        with open("embed.log", 'a') as file:
+            now = time.time()
+            file.write(f"{now}-{message.author.name}-{aliased}\n") 
 
         print(f"{message.author.name} shared {aliased}")
         await message.channel.send(message.author.mention + " shared " + aliased)
