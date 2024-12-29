@@ -6,31 +6,11 @@ VENV_PATH="/home/sun/code/venvs/embedvenv"
 # Path to the repository
 REPO_PATH="/home/sun/code/embed-fixer"
 
-# Function to check and prompt for Discord API key
-check_discord_key() {
-    if [ -z "${discord}" ]; then
-        echo "Discord API key not found in environment variables"
-        read -p "Please enter your Discord API key: " discord_key
-
-        # Save the key in /etc/environment for persistence
-        if ! grep -q '^discord=' /etc/environment; then
-            echo "Saving Discord API key to /etc/environment"
-            echo "discord=$discord_key" | sudo tee -a /etc/environment > /dev/null
-        else
-            sudo sed -i "s/^discord=.*/discord=$discord_key/" /etc/environment
-        fi
-
-        # Reload system-wide environment variables
-        export discord="$discord_key"
-        source /etc/environment
-    fi
-}
-
-# Function to terminate any running instance of main.py
+# Function to terminate any running instance of uv run
 terminate_previous_instance() {
-    if pgrep -f "python3 main.py" > /dev/null; then
-        echo "Terminating previous instance of main.py"
-        pkill -f "python3 main.py"
+    if pgrep -f "uv run" > /dev/null; then
+        echo "Terminating previous instance of 'uv run'"
+        pkill -f "uv run"
     fi
 }
 
@@ -49,19 +29,13 @@ run_bot() {
         git reset --hard
         git pull origin main
         
-        # Check for Discord key
-        check_discord_key
-
-        # Activate the virtual environment
-        source "$VENV_PATH/bin/activate"
-
         # Terminate any previous instance
         terminate_previous_instance
 
-        # Start the bot
+        # Sync dependencies and start the bot
         echo "Starting bot for date: $current_date"
-        discord=$discord python3 main.py &
-        bot_pid=$!
+        uv sync
+        uv run --env-file=.env main.py
         
         # Wait until the next day
         while [ "$(date +%Y-%m-%d)" == "$current_date" ]; do
