@@ -1,4 +1,5 @@
 import discord
+import os
 
 intents = discord.Intents(messages=True)
 
@@ -15,12 +16,19 @@ async def on_message(message):
         aliased = message.content.replace("x.com", "vxtwitter.com")
     elif "instagram.com" in message.content and "ddinstagram.com" not in message.content and ('reels' in message.content or 'reel' in message.content):
         aliased = message.content.replace("instagram.com","ddinstagram.com")
+    elif "tiktok.com" in message.content and "tiktxk" not in message.content:
+        aliased = message.content.replace("tiktok", "tiktxk")
 
     if aliased:
         await message.delete()
-        await message.channel.send(message.author.display_name + " shared " + aliased)
+        await message.channel.send(message.author.mention + " shared " + aliased)
     return
 
     await message.channel.send(message.content)
 
-bot.run('your-token-goes-here')
+discord_key = os.environ.get('discord')
+
+if discord_key is None:
+    raise ValueError("discord environment variable is not set")
+
+bot.run(discord_key)
