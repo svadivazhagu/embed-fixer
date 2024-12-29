@@ -1,7 +1,7 @@
 [project]
 name = "embed-fixer"
 version = "0.1.0"
-description = "Add your description here"
+description = "fixing visual embeds for links in discord"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

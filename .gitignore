@@ -1,3 +1,4 @@
 embed-fixer/
 .python-version
 .env
+.venv/
