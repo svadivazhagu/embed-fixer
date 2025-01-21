@@ -16,8 +16,8 @@ async def on_message(message):
         aliased = message.content.replace("twitter.com", "vxtwitter.com")
     elif "x.com" in message.content and 'status' in message.content:
         aliased = message.content.replace("x.com", "vxtwitter.com")
-    elif "instagram.com" in message.content and "kkinstagram.com" not in message.content and ('reels' in message.content or 'reel' in message.content):
-        aliased = message.content.replace("instagram.com", "kkinstagram.com")
+    elif "instagram.com" in message.content and "instagramez.com" not in message.content and ('reels' in message.content or 'reel' in message.content):
+        aliased = message.content.replace("instagram.com", "instagramez.com")
     #Tikok embed replacement no longer needed as Discord does it right
     # elif "tiktok.com" in message.content and "tiktxk" not in message.content:
     #     aliased = message.content.replace("tiktok", "tiktxk")
