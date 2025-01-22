@@ -18,4 +18,3 @@
 `./run_discord_bot.sh`
 
 
-automate on your cadence using cron
