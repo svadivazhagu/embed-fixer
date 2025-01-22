@@ -45,7 +45,7 @@ async def on_message(message):
         #Check if the channel is not 
         if message.guild.name == "Squad Footie Pajamas" and message.channel != "brainrot":
 
-            target_channel = discord.utils.get(message.guild.channels, name="brainrot")  # Replace 'log-channel' with your target channel name
+            target_channel = discord.utils.get(message.guild.channels, name="brainrot")
             if target_channel:
                 await target_channel.send(f"{message.author.display_name} shared: {aliased}")
                 await message.delete()
