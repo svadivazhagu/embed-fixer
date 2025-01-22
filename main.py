@@ -35,6 +35,7 @@ async def on_message(message):
                     now = time.time()
                     file.write(f"Could not send a DM to {message.author.name}.")
                     file.close()
+            return
 
 
 
