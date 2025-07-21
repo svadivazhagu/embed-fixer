@@ -1,0 +1,29 @@
+[Unit]
+Description=Discord Embed Fixer Bot
+After=network-online.target
+Wants=network-online.target
+Restart=always
+
+[Service]
+Type=simple
+User=sun
+Group=sun
+WorkingDirectory=/home/sun/embed-fixer
+Environment=PATH=/home/sun/.local/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/home/sun/embed-fixer/.env
+ExecStart=/home/sun/.local/bin/uv run main.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=embed-fixer
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/sun/embed-fixer
+
+[Install]
+WantedBy=multi-user.target
