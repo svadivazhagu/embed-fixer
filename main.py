@@ -20,7 +20,7 @@ def embed(message: str):
     aliased = None
     if "twitter.com" in message and "vxtwitter" not in message and "status" in message:
         aliased = message.replace("twitter.com", "vxtwitter.com")
-    elif "x.com" in message and "status" in message:
+    elif "x.com" in message and "vxtwitter" not in message and "status" in message:
         aliased = message.replace("x.com", "vxtwitter.com")
     elif "instagram.com" in message and "instagramez.com" not in message and ("reels" in message or "reel" in message):
         aliased = message.replace("instagram.com", "instagramez.com")
@@ -33,7 +33,12 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
+    # Ignore all bot messages (including our own)
+    if message.author.bot:
+        return
+    
+    # Additional safety: ignore messages that match our posting pattern
+    if " shared: " in message.content:
         return
 
     # Check if the message is from RSC
@@ -57,15 +62,16 @@ async def on_message(message):
     if aliased:
         # Handle the scenario for SFPJs
         # Check if the channel is not brainrot
-        if message.guild.name == "Squad Footie Pajamas" and message.channel.name \!= "brainrot":
+        if message.guild.name == "Squad Footie Pajamas" and message.channel.name != "brainrot":
             target_channel = discord.utils.get(message.guild.channels, name="brainrot")
             if target_channel:
                 await target_channel.send(f"{message.author.display_name} shared: {aliased}")
                 await message.delete()
                 logger.info(f"Redirected embed from {message.author.display_name} to #brainrot")
         else:
-            await message.channel.send(message.author.display_name + " shared: " + aliased)
-            logger.info(f"Posted embed for {message.author.display_name}")
+            await message.channel.send(f"{message.author.display_name} shared: {aliased}")
+            await message.delete()
+            logger.info(f"Posted embed for {message.author.display_name} and deleted original")
         
         with open("embed.log", "a") as file:
             now = time.time()
